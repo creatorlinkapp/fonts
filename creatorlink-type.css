@@ -1,0 +1,25 @@
+/* CreatorlinkSansKR 타입 토큰 — 플로우 실측 기준(13·14px 400 최다, 12/19, 11 캡션)으로 정리
+   tnum 은 전역 off. 숫자 열이 세로로 정렬돼야 하는 곳(표, 카운터, 시계)에만 .tnum 을 붙인다. */
+:root{
+  --font-sans:'CreatorlinkSansKR',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+  --fs-11:11px; --lh-11:16px;   /* 캡션 · 배지 · 메타 */
+  --fs-12:12px; --lh-12:18px;   /* 보조 텍스트 · 표 셀 */
+  --fs-13:13px; --lh-13:19px;   /* 기본 UI · 목록 · 버튼 */
+  --fs-14:14px; --lh-14:20px;   /* 본문 · 입력값 */
+  --fs-16:16px; --lh-16:24px;   /* 섹션 제목 */
+  --fs-20:20px; --lh-20:28px;   /* 페이지 제목 */
+  --fw-regular:400; --fw-medium:500; --fw-bold:700;
+}
+html{font-family:var(--font-sans);font-size:var(--fs-14);line-height:var(--lh-14);
+  letter-spacing:0;                     /* 한글은 음수 자간 금지 — 작은 크기에서 뭉개짐 */
+  -webkit-font-smoothing:auto;          /* antialiased 는 Mac 에서 12px 이하를 얇게 만듦 */
+  text-rendering:optimizeLegibility;}
+.t-11{font-size:var(--fs-11);line-height:var(--lh-11)}
+.t-12{font-size:var(--fs-12);line-height:var(--lh-12)}
+.t-13{font-size:var(--fs-13);line-height:var(--lh-13)}
+.t-14{font-size:var(--fs-14);line-height:var(--lh-14)}
+.t-16{font-size:var(--fs-16);line-height:var(--lh-16)}
+.t-20{font-size:var(--fs-20);line-height:var(--lh-20)}
+.fw-400{font-weight:400}.fw-500{font-weight:500}.fw-700{font-weight:700}
+.tnum{font-variant-numeric:tabular-nums}          /* = font-feature-settings:"tnum" */
+table td.num,table th.num{font-variant-numeric:tabular-nums;text-align:right}

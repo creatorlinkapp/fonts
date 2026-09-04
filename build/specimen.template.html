@@ -1,0 +1,220 @@
+<title>Creatorlink Sans KR 스펙</title>
+<style>
+/*FONTFACE*/
+:root{
+  --bg:#F4F5F7;--surface:#FFFFFF;--ink:#1B1F26;--ink-2:#454B55;--muted:#6C7380;--line:#E0E4EA;--line-2:#EEF0F3;
+  --accent:#2C63D9;--accent-soft:#E9F0FF;--accent-ink:#1E4BB0;--ok:#1F8F55;--ok-soft:#E3F5EA;--warn:#B7791F;--warn-soft:#FFF3DA;
+  --mark:rgba(44,99,217,.10);
+  --ui:'CL-latin-roboto','CL-otf',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0F1115;--surface:#171A20;--ink:#E8EBF0;--ink-2:#C3C9D3;--muted:#8F98A6;--line:#2A2F39;--line-2:#20242C;
+  --accent:#7DA6FF;--accent-soft:#1B2A4A;--accent-ink:#A9C2FF;--ok:#4CC282;--ok-soft:#14301F;--warn:#E0A94A;--warn-soft:#3A2C12;--mark:rgba(125,166,255,.14);}}
+:root[data-theme="dark"]{
+  --bg:#0F1115;--surface:#171A20;--ink:#E8EBF0;--ink-2:#C3C9D3;--muted:#8F98A6;--line:#2A2F39;--line-2:#20242C;
+  --accent:#7DA6FF;--accent-soft:#1B2A4A;--accent-ink:#A9C2FF;--ok:#4CC282;--ok-soft:#14301F;--warn:#E0A94A;--warn-soft:#3A2C12;--mark:rgba(125,166,255,.14);}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--ui);font-size:13px;line-height:19px;-webkit-text-size-adjust:100%}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.top{position:sticky;top:0;z-index:5;background:var(--surface);border-bottom:1px solid var(--line);padding:10px 20px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px}
+.top h1{font-size:14px;line-height:20px;font-weight:700;margin:0 6px 0 0;letter-spacing:0}
+.chip{font-size:11px;line-height:16px;padding:1px 7px;border-radius:4px;background:var(--line-2);color:var(--muted)}
+.chip.acc{background:var(--accent-soft);color:var(--accent-ink)}
+.ctl{display:flex;align-items:center;gap:6px}
+.ctl>span{font-size:11px;line-height:16px;color:var(--muted);letter-spacing:.02em}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--surface)}
+.seg button{padding:3px 9px;font-size:12px;line-height:18px;color:var(--ink-2);border-right:1px solid var(--line)}
+.seg button:last-child{border-right:0}
+.seg button.on{background:var(--accent);color:#fff}
+.seg button:hover:not(.on){background:var(--line-2)}
+.wrap{padding:20px;display:grid;grid-template-columns:1fr;gap:20px;max-width:1240px;margin:0 auto}
+.wrap.cmp{grid-template-columns:1fr 1fr;max-width:none}
+.pane{background:var(--surface);border:1px solid var(--line);border-radius:8px;min-width:0}
+.pane[hidden]{display:none}
+.pane .bar{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;padding:10px 16px;border-bottom:1px solid var(--line);position:sticky;top:41px;background:var(--surface);z-index:4;border-radius:8px 8px 0 0}
+.pane .bar .tag{font-size:11px;line-height:16px;font-weight:700;color:var(--accent-ink);background:var(--accent-soft);padding:1px 6px;border-radius:4px}
+.pane[data-kr="otf"]{--kr:'CL-otf'} .pane[data-kr="ttf"]{--kr:'CL-ttf'} .pane[data-kr="raw"]{--kr:'CL-raw'}
+.pane[data-lat="roboto"]{--lat:'CL-latin-roboto'} .pane[data-lat="inter"]{--lat:'CL-latin-inter'} .pane[data-lat="none"]{--lat:var(--kr)}
+.pane[data-tnum="1"] .content{font-variant-numeric:tabular-nums}
+.content{font-family:var(--lat),var(--kr),sans-serif;padding:4px 16px 24px;color:var(--ink)}
+.content h2{font-size:12px;line-height:18px;font-weight:700;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;margin:24px 0 10px;padding-top:16px;border-top:1px solid var(--line-2)}
+.content h2:first-child{border-top:0;padding-top:12px;margin-top:0}
+.content h2 small{font-weight:400;letter-spacing:0;text-transform:none;margin-left:8px}
+.note{font-size:12px;line-height:18px;color:var(--muted);margin:0 0 12px;max-width:72ch}
+/* 1. scale */
+.scale{display:grid;grid-template-columns:96px 1fr;gap:0 16px;border-top:1px solid var(--line-2)}
+.scale>div{padding:9px 0;border-bottom:1px solid var(--line-2);min-width:0}
+.scale .k{font-family:var(--ui);font-size:11px;line-height:16px;color:var(--muted);padding-top:11px}
+.scale .k b{display:block;color:var(--ink-2);font-weight:500}
+.scale .s{display:flex;flex-direction:column;gap:2px}
+.scale .s span{display:block;white-space:nowrap;overflow-x:auto}
+.scale .s span::before{content:attr(data-w);font-family:var(--ui);font-size:10px;line-height:1;color:var(--muted);display:inline-block;width:26px;font-weight:400;font-variant-numeric:tabular-nums;vertical-align:baseline}
+/* 2. ui mock */
+.mock{border:1px solid var(--line);border-radius:6px;display:grid;grid-template-columns:200px 1fr;overflow:hidden;font-size:13px;line-height:19px}
+.mock .side{background:var(--bg);border-right:1px solid var(--line);padding:10px 8px}
+.mock .side .t{font-size:11px;line-height:16px;font-weight:700;color:var(--muted);padding:4px 8px;letter-spacing:.02em}
+.mock .side .it{padding:5px 8px;border-radius:4px;display:flex;justify-content:space-between;gap:8px}
+.mock .side .it.on{background:var(--accent-soft);color:var(--accent-ink);font-weight:500}
+.mock .side .it em{font-style:normal;font-size:11px;color:var(--muted)}
+.mock .main{padding:12px 14px;min-width:0;overflow-x:auto}
+.mock .head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px}
+.mock .head h3{font-size:16px;line-height:24px;font-weight:700;margin:0}
+.mock .head .btns{display:flex;gap:6px}
+.btn{font-size:13px;line-height:19px;font-weight:500;padding:4px 10px;border-radius:5px;border:1px solid var(--line);background:var(--surface);color:var(--ink-2)}
+.btn.pri{background:var(--accent);border-color:var(--accent);color:#fff}
+.inp{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:5px;padding:5px 10px;margin-bottom:10px;color:var(--muted);font-size:13px;line-height:19px;max-width:360px}
+.inp b{color:var(--ink);font-weight:400}
+table.tb{border-collapse:collapse;width:100%;font-size:13px;line-height:19px}
+.tb th{font-size:11px;line-height:16px;font-weight:500;color:var(--muted);text-align:left;padding:4px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+.tb td{padding:6px 8px;border-bottom:1px solid var(--line-2);white-space:nowrap;vertical-align:middle}
+.tb td.r,.tb th.r{text-align:right}
+.tb td.d{color:var(--muted);font-size:12px}
+.bd{display:inline-block;font-size:11px;line-height:16px;font-weight:500;padding:0 6px;border-radius:4px;background:var(--line-2);color:var(--ink-2)}
+.bd.ok{background:var(--ok-soft);color:var(--ok)} .bd.wn{background:var(--warn-soft);color:var(--warn)}
+/* 3. tnum */
+.num{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.num>div{border:1px solid var(--line);border-radius:6px;padding:10px 12px}
+.num h4{margin:0 0 6px;font-size:11px;line-height:16px;font-weight:500;color:var(--muted);letter-spacing:.02em;font-family:var(--ui)}
+.num .rows{font-size:13px;line-height:22px}
+.num .rows div{display:flex;justify-content:space-between;gap:12px;border-bottom:1px dashed var(--line-2)}
+.num .rows span:last-child{background:var(--mark);padding:0 2px}
+.num .pro{font-variant-numeric:proportional-nums} .num .tab{font-variant-numeric:tabular-nums}
+/* 4. line box */
+.lbx{display:grid;grid-template-columns:auto 1fr auto;gap:6px 14px;align-items:center;font-size:14px;line-height:normal;max-width:640px}
+.lbx .lb{background:var(--mark);padding:0 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lbx .lb.b{font-weight:700}
+.lbx .k,.lbx .m{font-family:var(--ui);font-size:11px;line-height:16px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.lbx .m b{color:var(--ink);font-weight:500}
+/* 5. body */
+.body{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.body p{margin:0;max-width:34em}
+.body .lab{font-family:var(--ui);font-size:11px;line-height:16px;color:var(--muted);margin-bottom:4px}
+/* 6. glyphs */
+.gl{font-size:12px;line-height:20px;word-break:break-all;color:var(--ink-2)}
+.gl b{font-weight:500;color:var(--ink)}
+.gl .row{display:flex;gap:10px;align-items:baseline}
+.gl .row .k{font-family:var(--ui);font-size:10px;color:var(--muted);width:72px;flex:none}
+@media (max-width:820px){.wrap.cmp{grid-template-columns:1fr}.mock{grid-template-columns:1fr}.mock .side{border-right:0;border-bottom:1px solid var(--line)}.num{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:no-preference){.seg button{transition:background .12s}}
+</style>
+<!--HEAD-END-->
+<header class="top">
+  <h1>Creatorlink Sans KR 스펙</h1>
+  <span class="chip">{{MODE}}</span>
+  <span class="chip">OTF <b>{{SZ_OTF}}</b>KB/웨이트 · TTF <b>{{SZ_TTF}}</b>KB/웨이트 · Roboto <b>{{SZ_ROBOTO}}</b>KB · Inter <b>{{SZ_INTER}}</b>KB</span>
+  <span class="chip" id="env">–</span>
+  <span class="chip">한글 힌팅: otfautohint + 한글 전용 존(상단 1614 / 하단 −142) · 라틴: Roboto 힌팅판 · Windows DPR 1 에서 비교하세요</span>
+  <div class="ctl" style="margin-left:auto"><span>확대</span><div class="seg" id="zoom"><button data-v="1" class="on">100%</button><button data-v="2">200%</button><button data-v="3">300%</button></div></div>
+  <div class="ctl"><div class="seg" id="cmp"><button data-v="0" class="on">단일</button><button data-v="1">A / B 비교</button></div></div>
+</header>
+
+<template id="tpl">
+  <h2>UI 텍스트 스케일 <small>플로우 실측(13·14px 400 최다, 12px/19px, 11px 캡션)을 기준으로 잡은 토큰</small></h2>
+  <div class="scale">
+    <div class="k"><b>11 / 16</b>캡션 · 배지 · 메타</div>
+    <div class="s" style="font-size:11px;line-height:16px"><span data-w="400">마감 임박 · 3명 참여 · 2026.09.03 (목) 14:30 · Creatorlink Sans KR 0123456789 · 수정됨 2분 전</span><span data-w="500" style="font-weight:500">마감 임박 · 3명 참여 · 2026.09.03 (목) 14:30 · Creatorlink Sans KR 0123456789 · 수정됨 2분 전</span><span data-w="700" style="font-weight:700">마감 임박 · 3명 참여 · 2026.09.03 (목) 14:30 · Creatorlink Sans KR 0123456789 · 수정됨 2분 전</span></div>
+    <div class="k"><b>12 / 18</b>보조 텍스트 · 표 셀</div>
+    <div class="s" style="font-size:12px;line-height:18px"><span data-w="400">홈페이지 리뉴얼 일정 공유 — 담당 김지수, 검토 Park Minho · 방문수 1,234,567 · 전환율 3.84% · Creatorlink</span><span data-w="500" style="font-weight:500">홈페이지 리뉴얼 일정 공유 — 담당 김지수, 검토 Park Minho · 방문수 1,234,567 · 전환율 3.84% · Creatorlink</span><span data-w="700" style="font-weight:700">홈페이지 리뉴얼 일정 공유 — 담당 김지수, 검토 Park Minho · 방문수 1,234,567 · 전환율 3.84% · Creatorlink</span></div>
+    <div class="k"><b>13 / 19</b>기본 UI · 목록 · 버튼</div>
+    <div class="s" style="font-size:13px;line-height:19px"><span data-w="400">섹션을 드래그해서 순서를 바꾸고, 게시하기를 누르면 creatorlink.net/my-site 에 바로 반영됩니다. Weight 400</span><span data-w="500" style="font-weight:500">섹션을 드래그해서 순서를 바꾸고, 게시하기를 누르면 creatorlink.net/my-site 에 바로 반영됩니다. Weight 500</span><span data-w="700" style="font-weight:700">섹션을 드래그해서 순서를 바꾸고, 게시하기를 누르면 creatorlink.net/my-site 에 바로 반영됩니다. Weight 700</span></div>
+    <div class="k"><b>14 / 20</b>본문 · 입력값</div>
+    <div class="s" style="font-size:14px;line-height:20px"><span data-w="400">웹빌더에서 만든 페이지는 모바일과 데스크톱에서 같은 폰트로 렌더링됩니다 — Responsive Layout, SEO 0123456789</span><span data-w="500" style="font-weight:500">웹빌더에서 만든 페이지는 모바일과 데스크톱에서 같은 폰트로 렌더링됩니다 — Responsive Layout, SEO 0123456789</span><span data-w="700" style="font-weight:700">웹빌더에서 만든 페이지는 모바일과 데스크톱에서 같은 폰트로 렌더링됩니다 — Responsive Layout, SEO 0123456789</span></div>
+    <div class="k"><b>16 / 24</b>섹션 제목</div>
+    <div class="s" style="font-size:16px;line-height:24px"><span data-w="400">디자인 시스템과 타이포그래피 Design System &amp; Typography</span><span data-w="500" style="font-weight:500">디자인 시스템과 타이포그래피 Design System &amp; Typography</span><span data-w="700" style="font-weight:700">디자인 시스템과 타이포그래피 Design System &amp; Typography</span></div>
+  </div>
+
+  <h2>실제 UI 조각 <small>13px 기본, 11px 배지, 12px 보조 — 작은 크기에서 한글·영문·숫자가 한 줄에 섞일 때</small></h2>
+  <div class="mock">
+    <div class="side">
+      <div class="t">내 사이트</div>
+      <div class="it on"><span>포트폴리오 2026</span><em>12</em></div>
+      <div class="it"><span>Creatorlink Studio</span><em>8</em></div>
+      <div class="it"><span>카페 브런치 메뉴</span><em>3</em></div>
+      <div class="it"><span>Wedding · 김지수 &amp; Park</span><em>1</em></div>
+      <div class="t" style="margin-top:8px">설정</div>
+      <div class="it"><span>도메인 연결</span></div>
+      <div class="it"><span>결제 및 플랜</span><em>Pro</em></div>
+    </div>
+    <div class="main">
+      <div class="head"><h3>포트폴리오 2026</h3><div class="btns"><span class="btn">미리보기</span><span class="btn pri">게시하기</span></div></div>
+      <div class="inp"><span>🔍</span><span>페이지 이름으로 검색 <b>— 예: about, 작업물</b></span></div>
+      <table class="tb">
+        <thead><tr><th>페이지</th><th>상태</th><th>담당</th><th>수정일</th><th class="r">방문수</th><th class="r">전환율</th></tr></thead>
+        <tbody>
+          <tr><td>홈 / Home</td><td><span class="bd ok">게시됨</span></td><td>김지수</td><td class="d">2026.09.03 14:30</td><td class="r">1,234,567</td><td class="r">3.84%</td></tr>
+          <tr><td>작업물 · Works</td><td><span class="bd ok">게시됨</span></td><td>Park Minho</td><td class="d">2026.09.01 09:12</td><td class="r">891,011</td><td class="r">12.07%</td></tr>
+          <tr><td>소개 (About)</td><td><span class="bd wn">검토 중</span></td><td>이하늘</td><td class="d">2026.08.28 18:05</td><td class="r">77,777</td><td class="r">0.96%</td></tr>
+          <tr><td>문의하기</td><td><span class="bd">초안</span></td><td>—</td><td class="d">2026.08.19 11:40</td><td class="r">1,000</td><td class="r">10.00%</td></tr>
+          <tr><td>블로그 2026-09</td><td><span class="bd">초안</span></td><td>Sarah O'Neil</td><td class="d">2026.08.03 08:00</td><td class="r">0</td><td class="r">0.00%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <h2>숫자 정렬 <small>tnum 피처를 서브셋에 살려두었는지 확인 — 오른쪽 열이 세로로 정렬되면 정상</small></h2>
+  <div class="num">
+    <div class="pro"><h4>proportional-nums (기본)</h4><div class="rows"><div><span>방문수</span><span>1,234,567</span></div><div><span>주문</span><span>1,111,111</span></div><div><span>매출</span><span>₩ 7,777,777</span></div><div><span>환불</span><span>₩ 1,010,101</span></div><div><span>시간</span><span>11:11:11</span></div><div><span>시간</span><span>00:00:00</span></div></div></div>
+    <div class="tab"><h4>tabular-nums (font-feature-settings: "tnum")</h4><div class="rows"><div><span>방문수</span><span>1,234,567</span></div><div><span>주문</span><span>1,111,111</span></div><div><span>매출</span><span>₩ 7,777,777</span></div><div><span>환불</span><span>₩ 1,010,101</span></div><div><span>시간</span><span>11:11:11</span></div><div><span>시간</span><span>00:00:00</span></div></div></div>
+  </div>
+
+  <h2>혼합 행 라인박스 <small>line-height: normal · 한글 폰트와 라틴 파트너의 수직 메트릭을 1949 / −494 로 통일했으므로 세 줄의 높이가 같아야 함</small></h2>
+  <div class="lbx">
+    <span class="k">한글만</span><span class="lb">가나다라마바사 웹빌더 타이포그래피</span><span class="m" data-m>–</span>
+    <span class="k">영문·숫자만</span><span class="lb">Creatorlink Sans KR 0123456789 Typography</span><span class="m" data-m>–</span>
+    <span class="k">혼합</span><span class="lb">한글과 English 0123 이 한 줄에 섞였을 때 line box</span><span class="m" data-m>–</span>
+    <span class="k">혼합 · 700</span><span class="lb b">한글과 English 0123 이 한 줄에 섞였을 때 line box</span><span class="m" data-m>–</span>
+  </div>
+
+  <h2>본문 가독성 <small>12 · 13 · 14px, 한 줄 약 34자</small></h2>
+  <div class="body">
+    <div><div class="lab">12px / 18px · 400</div><p style="font-size:12px;line-height:18px">크리에이터링크는 코딩 없이 웹사이트를 만드는 도구입니다. 섹션을 고르고, 글과 사진을 넣고, 게시하기를 누르면 끝. 폰트는 사이트 전체에 한 번에 적용되며, 한글은 Creatorlink Sans KR, 영문과 숫자는 Roboto 또는 Inter가 담당합니다. 방문자는 필요한 글자 묶음(청크)만 내려받기 때문에 첫 화면이 빨리 뜹니다.</p></div>
+    <div><div class="lab">13px / 19px · 400</div><p style="font-size:13px;line-height:19px">크리에이터링크는 코딩 없이 웹사이트를 만드는 도구입니다. 섹션을 고르고, 글과 사진을 넣고, 게시하기를 누르면 끝. 폰트는 사이트 전체에 한 번에 적용되며, 한글은 Creatorlink Sans KR, 영문과 숫자는 Roboto 또는 Inter가 담당합니다. 방문자는 필요한 글자 묶음(청크)만 내려받기 때문에 첫 화면이 빨리 뜹니다.</p></div>
+    <div><div class="lab">14px / 20px · 400</div><p style="font-size:14px;line-height:20px">크리에이터링크는 코딩 없이 웹사이트를 만드는 도구입니다. 섹션을 고르고, 글과 사진을 넣고, 게시하기를 누르면 끝. 폰트는 사이트 전체에 한 번에 적용되며, 한글은 Creatorlink Sans KR, 영문과 숫자는 Roboto 또는 Inter가 담당합니다. 방문자는 필요한 글자 묶음(청크)만 내려받기 때문에 첫 화면이 빨리 뜹니다.</p></div>
+  </div>
+
+  <h2>글리프 체크 <small>12px · 획이 많은 한글, 헷갈리는 라틴, 문장부호(한글 폰트 담당)</small></h2>
+  <div class="gl">
+    <div class="row"><span class="k">복잡한 한글</span><span>뷁 쀍 똠 뺣 홻 뚫 꽃 훑 밟 넓 읊 삶 흙 닭 값 몫 옰 핥 뿅 쒔 꽹 뭏 궭 <b>뷁 쀍 똠 뺣 홻 뚫 꽃 훑 밟 넓 읊 삶</b></span></div>
+    <div class="row"><span class="k">자모</span><span>ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎ ㅏㅑㅓㅕㅗㅛㅜㅠㅡㅣ ㅐㅔㅚㅟ</span></div>
+    <div class="row"><span class="k">헷갈리는 라틴</span><span>0O o Q · 1 l I | i j · rn m · 5S · 2Z · 8B · a g · Il1 O0 <b>0O 1lI Il1 rn m</b></span></div>
+    <div class="row"><span class="k">문장부호</span><span>( ) [ ] { } &lt; &gt; , . ; : ! ? ' " ‘ ’ “ ” · … — – ~ @ # % &amp; * / \ _ ^ ` + = ₩ $ € ¥</span></div>
+    <div class="row"><span class="k">날짜·시간</span><span>2026.09.03 (목) 14:30 · 2026-09-03T14:30:00+09:00 · 09/03/26 · 1,234,567.89 · 3.84% · ₩12,900</span></div>
+  </div>
+</template>
+
+<main class="wrap" id="wrap">
+  <section class="pane" data-kr="otf" data-lat="roboto" data-tnum="0" id="A">
+    <div class="bar"><span class="tag">A</span>
+      <div class="ctl"><span>한글 아웃라인</span><div class="seg" data-key="kr"><button data-v="otf" class="on">OTF · CFF 힌팅</button><button data-v="ttf">TTF 힌팅</button><button data-v="raw">원본 (힌트 없음)</button></div></div>
+      <div class="ctl"><span>영문·숫자</span><div class="seg" data-key="lat"><button data-v="roboto" class="on">Roboto</button><button data-v="inter">Inter</button><button data-v="none">프리텐다드 라틴</button></div></div>
+      <div class="ctl"><span>tnum 전역</span><div class="seg" data-key="tnum"><button data-v="0" class="on">끔</button><button data-v="1">켬</button></div></div>
+    </div>
+    <div class="content"></div>
+  </section>
+  <section class="pane" data-kr="raw" data-lat="roboto" data-tnum="0" id="B" hidden>
+    <div class="bar"><span class="tag">B</span>
+      <div class="ctl"><span>한글 아웃라인</span><div class="seg" data-key="kr"><button data-v="otf">OTF · CFF 힌팅</button><button data-v="ttf">TTF 힌팅</button><button data-v="raw" class="on">원본 (힌트 없음)</button></div></div>
+      <div class="ctl"><span>영문·숫자</span><div class="seg" data-key="lat"><button data-v="roboto" class="on">Roboto</button><button data-v="inter">Inter</button><button data-v="none">프리텐다드 라틴</button></div></div>
+      <div class="ctl"><span>tnum 전역</span><div class="seg" data-key="tnum"><button data-v="0" class="on">끔</button><button data-v="1">켬</button></div></div>
+    </div>
+    <div class="content"></div>
+  </section>
+</main>
+
+<script>
+(function(){
+  var tpl=document.getElementById('tpl');
+  document.querySelectorAll('.pane .content').forEach(function(c){c.appendChild(tpl.content.cloneNode(true));});
+  function seg(el,fn){el.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;el.querySelectorAll('button').forEach(function(x){x.classList.toggle('on',x===b);});fn(b.dataset.v);});}
+  document.querySelectorAll('.pane').forEach(function(p){p.querySelectorAll('.seg[data-key]').forEach(function(s){seg(s,function(v){p.dataset[s.dataset.key]=v;measure();});});});
+  seg(document.getElementById('zoom'),function(v){document.querySelectorAll('.content').forEach(function(c){c.style.zoom=v;});measure();});
+  seg(document.getElementById('cmp'),function(v){document.getElementById('B').hidden=v!=='1';document.getElementById('wrap').classList.toggle('cmp',v==='1');measure();});
+  function measure(){requestAnimationFrame(function(){document.querySelectorAll('.pane').forEach(function(p){var ms=p.querySelectorAll('[data-m]');p.querySelectorAll('.lb').forEach(function(lb,i){var h=lb.getBoundingClientRect().height/(parseFloat(p.querySelector('.content').style.zoom)||1);ms[i].innerHTML='<b>'+h.toFixed(2)+'</b> px';});});});}
+  var ua=navigator.userAgent, os=/Windows/.test(ua)?'Windows':/Mac/.test(ua)?'macOS':/Android/.test(ua)?'Android':/iPhone|iPad/.test(ua)?'iOS':'기타';
+  var br=/Edg\//.test(ua)?'Edge':/Chrome\//.test(ua)?'Chrome':/Safari\//.test(ua)?'Safari':/Firefox\//.test(ua)?'Firefox':'브라우저';
+  document.getElementById('env').textContent=os+' · '+br+' · DPR '+(window.devicePixelRatio||1);
+  if(document.fonts&&document.fonts.ready){document.fonts.ready.then(measure);}else{measure();}
+  window.addEventListener('resize',measure);
+})();
+</script>
