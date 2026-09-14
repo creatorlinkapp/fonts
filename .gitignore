@@ -1,0 +1,12 @@
+# 빌드 중간 산출물 — 완료본은 build_font.py --publish 가 fonts/ · CSS 로 배치한다
+build/dist/
+build/out/
+build/__pycache__/
+
+# 내려받은 원본 소스 (README 「재빌드」 표에서 받는다) · 힌팅 캐시
+# build/src/fontinfo/ · build/src/ko_ranges.json 은 추적한다
+build/src/pretendard/
+build/src/roboto-hinted/
+build/src/roboto-vf/
+build/src/inter/
+build/src/hinted/
