@@ -26,7 +26,8 @@ DIST = os.path.join(ROOT, "dist")
 FAMILY = "CreatorlinkSansKR"
 VENDOR = "Creatorlink"
 VERSION = "1.000"
-WEIGHTS = {400: "Regular", 500: "Medium", 700: "Bold"}
+# 원본 index.html 이 쓰는 굵기 5단계 (100~300 · 900 은 사용 0곳이라 넣지 않는다)
+WEIGHTS = {400: "Regular", 500: "Medium", 600: "SemiBold", 700: "Bold", 800: "ExtraBold"}
 
 # 베이스 폰트 소스 (Pretendard 1.3.9)
 BASE_RAW = {
@@ -40,9 +41,13 @@ BASE = {
 }
 # 라틴 파트너 폰트 (원본 TTF)
 LATIN = {
-    "roboto": os.path.join(SRC, "roboto-hinted/Roboto-{style}.ttf"),   # Google Fonts 힌팅판 (플로우가 쓰는 것과 동일 빌드)
-    "inter":  os.path.join(SRC, "inter/extras/ttf/Inter-{style}.ttf"),
+    "roboto": os.path.join(SRC, "roboto-hinted/Roboto-{style}.ttf"),   # Regular·Medium·Bold = googlefonts/roboto-2 v2.136 roboto-hinted.zip (수동 힌팅판)
+    #   SemiBold·ExtraBold 는 v2 정적 빌드가 없다 → make_roboto_instances() 가 가변 폰트에서 뽑아 ttfautohint 로 힌팅해 같은 폴더에 둔다
+    "inter":  os.path.join(SRC, "inter/extras/ttf/Inter-{style}.ttf"),  # Inter 4.1
 }
+# Roboto 가변 폰트 (google/fonts ofl/roboto/Roboto[wdth,wght].ttf — 파일명의 [] 가 셸 와일드카드라 이름만 바꿔 둠)
+ROBOTO_VF = os.path.join(SRC, "roboto-vf/Roboto-VF-wdth-wght.ttf")
+ROBOTO_FROM_VF = {600: "SemiBold", 800: "ExtraBold"}
 # 라틴 파트너가 담당할 범위: 영문 대소문자 + 숫자 + 라틴 확장 (문장부호는 한글 폰트가 담당 → 플로우와 동일)
 LATIN_RANGE = "U+30-39, U+41-5A, U+61-7A, U+C0-24F"
 
@@ -244,6 +249,7 @@ Latin companions derived from Roboto (Apache 2.0) / Inter (SIL OFL 1.1). Vertica
 사용법:  font-family: '{FAMILY}', sans-serif;
   · 한글/기호는 {FAMILY} 청크(92개, 필요한 것만 다운로드), 영문·숫자는 라틴 파트너가 담당 (unicode-range)
   · 고정폭 숫자:  font-feature-settings: "tnum";   (또는 font-variant-numeric: tabular-nums)
+  · 굵기: 400 Regular / 500 Medium / 600 SemiBold / 700 Bold / 800 ExtraBold (100~300 · 900 없음)
 */
 """
 
@@ -265,8 +271,55 @@ def write_css(flavor, partner):
             lines.append(css_face(family, weight, f"./latin/{FAMILY}-Latin-{partner.title()}-{style}.woff2", LATIN_RANGE,
                                   comment=f"Latin companion ({partner}) {style} — letters/digits override"))
     path = os.path.join(DIST, f"creatorlink-sans-kr.{flavor}.{partner}.css")
-    open(path, "w").write("".join(lines))
+    open(path, "w", encoding="utf-8", newline="\n").write("".join(lines))   # 헤더에 한글 — Windows 기본 인코딩(cp949) 회피
     print("css →", path)
+
+
+# ---------------------------------------------------------------- Roboto 600 · 800
+def make_roboto_instances():
+    """Roboto v2 힌팅판엔 SemiBold·ExtraBold 정적 파일이 없다. 가변 폰트에서 wdth=100 · wght=600/800 인스턴스를 뽑고
+    ttfautohint 로 힌팅해 roboto-hinted/Roboto-{style}.ttf 로 둔다. 메트릭은 build_latin() 의 set_metrics 가 1949/−494 로 맞춘다.
+    ※ 400·500·700 은 Google 수동 힌팅판이고 이 둘은 자동 힌팅이라 방식이 다르다."""
+    from fontTools.varLib import instancer
+    from ttfautohint import ttfautohint
+    for w, s in ROBOTO_FROM_VF.items():
+        out = LATIN["roboto"].format(style=s)
+        if os.path.exists(out):
+            continue
+        inst = instancer.instantiateVariableFont(TTFont(ROBOTO_VF), {"wght": w, "wdth": 100})
+        for t in ("fpgm", "prep", "cvt ", "gasp"):   # 가변 폰트의 기존 명령은 인스턴스에 맞지 않으니 비우고 새로 힌팅
+            if t in inst:
+                del inst[t]
+        buf = io.BytesIO(); inst.save(buf)
+        print(f"[roboto] wght={w} → ttfautohint {s} …", flush=True)
+        ttfautohint(in_buffer=buf.getvalue(), out_file=out,
+                    windows_compatibility=True, hinting_range_min=8, hinting_range_max=50,
+                    hinting_limit=200, no_info=True)
+
+
+# ---------------------------------------------------------------- 저장소 배치
+def publish():
+    """dist → 저장소 루트 배치. fonts/full(OTF·TTF) · fonts/woff2-dynamic-subset(OTF 계열) · fonts/latin(Roboto),
+    creatorlink-sans-kr.template.css(__FONT_BASE__) · creatorlink-sans-kr.css(./fonts) — set-font-url.sh 경로 규칙 그대로."""
+    repo = os.path.dirname(ROOT)
+    fonts = os.path.join(repo, "fonts")
+    for sub in ("full", "woff2-dynamic-subset", "latin"):
+        os.makedirs(os.path.join(fonts, sub), exist_ok=True)
+    for fl in ("otf", "ttf"):
+        for s in WEIGHTS.values():
+            src = os.path.join(DIST, fl, "full", f"{FAMILY}-{s}.{fl}")
+            if os.path.exists(src):
+                shutil.copy(src, os.path.join(fonts, "full"))
+    for s in WEIGHTS.values():
+        for i in range(len(KO_RANGES)):
+            shutil.copy(os.path.join(DIST, "otf", "woff2-dynamic-subset", f"{FAMILY}-{s}.subset.{i}.woff2"),
+                        os.path.join(fonts, "woff2-dynamic-subset"))
+        shutil.copy(os.path.join(DIST, "latin", f"{FAMILY}-Latin-Roboto-{s}.woff2"), os.path.join(fonts, "latin"))
+    css = open(os.path.join(DIST, "creatorlink-sans-kr.otf.roboto.css"), encoding="utf-8").read()
+    tmpl = css.replace("./otf/woff2-dynamic-subset/", "__FONT_BASE__/woff2-dynamic-subset/").replace("./latin/", "__FONT_BASE__/latin/")
+    open(os.path.join(repo, "creatorlink-sans-kr.template.css"), "w", encoding="utf-8", newline="\n").write(tmpl)
+    open(os.path.join(repo, "creatorlink-sans-kr.css"), "w", encoding="utf-8", newline="\n").write(tmpl.replace("__FONT_BASE__", "./fonts"))
+    print("publish →", fonts)
 
 
 def main():
@@ -274,8 +327,10 @@ def main():
     ap.add_argument("--flavor", default="both", choices=["otf", "ttf", "both"])
     ap.add_argument("--jobs", type=int, default=os.cpu_count() or 4)
     ap.add_argument("--skip-base", action="store_true")
+    ap.add_argument("--publish", action="store_true", help="빌드 후 dist 를 저장소 fonts/ · CSS 로 배치")
     a = ap.parse_args()
     flavors = ["otf", "ttf"] if a.flavor == "both" else [a.flavor]
+    make_roboto_instances()
     if not a.skip_base:
         hint_sources(a.jobs)
     if not a.skip_base:
@@ -290,6 +345,8 @@ def main():
             write_css(fl, p)
     shutil.copy(os.path.join(SRC, "pretendard/LICENSE.txt"), os.path.join(DIST, "LICENSE-Pretendard.txt")) \
         if os.path.exists(os.path.join(SRC, "pretendard/LICENSE.txt")) else None
+    if a.publish:
+        publish()
 
 
 if __name__ == "__main__":

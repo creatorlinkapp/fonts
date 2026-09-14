@@ -12,6 +12,8 @@ Pretendard(SIL OFL 1.1) 기반 웹빌더용 자체 폰트. 한글·기호는 Cre
 </style>
 ```
 
+굵기는 **400 Regular · 500 Medium · 600 SemiBold · 700 Bold · 800 ExtraBold** 5단계입니다(260914 — 원본 화면이 쓰는 굵기 전부. 100~300 · 900 은 없음).
+
 `Pretendard`, `Noto Sans KR` 이름으로도 같은 파일이 alias 등록되어 있어 기존 템플릿 CSS를 고치지 않아도 자체 폰트로 대체됩니다. 서브셋을 안 쓰는 CSS(otf/ 또는 ttf/ 만)를 쓰려면 CSS에서 `latin/` 블록을 지우면 프리텐다드 라틴이 그대로 나옵니다.
 
 ## 구조
@@ -27,7 +29,7 @@ Pretendard(SIL OFL 1.1) 기반 웹빌더용 자체 폰트. 한글·기호는 Cre
 
 - **OTF(CFF)**: `otfautohint` + `fontinfo`(라틴/한글 FDDict 분리) 로 14,700 글리프 전부 힌팅. 한글은 실측한 전용 존 — 상단 평탄선 1614(+6), 받침 하단 −142(−24), ㅡ/ㅣ 스템 폭 134/158 (Regular 기준, 웨이트별 자동 측정) — 을 쓰고 FDArray 를 Latin / Hangul 2개로 분리해 각자 존을 갖습니다. Source Han Sans 가 힌팅된 방식과 같습니다. **권장.**
 - **TTF**: `ttfautohint`(라틴 정식, 한글은 fallback). 한글은 11px 에서 일부 획이 뭉개질 수 있어 비교용으로만 두었습니다.
-- **Roboto**: Google Fonts 힌팅판(fpgm/prep/cvt/gasp)으로 교체, 서브셋 시 힌트 유지.
+- **Roboto**: 400·500·700 은 Google 수동 힌팅판(`googlefonts/roboto-2` v2.136 `roboto-hinted.zip`, fpgm/prep/cvt/gasp). 600·800 은 v2 정적 파일이 없어 가변 Roboto(`google/fonts` `Roboto[wdth,wght].ttf`, v3.015)에서 wdth=100 인스턴스를 뽑아 `ttfautohint` 로 힌팅했습니다 — 힌팅 방식과 디자인 판(v2/v3)이 달라 글자 폭이 1~3 유닛 다를 수 있습니다. 서브셋 시 힌트 유지.
 - `specimen.html` 의 "원본 (힌트 없음)" 옵션과 A/B 로 비교할 수 있습니다. 반드시 **Windows · DPR 1 (100% 배율)** 에서 보세요. Mac 은 힌트를 무시하므로 차이가 없습니다.
 
 ## 원본 대비 변경점
@@ -41,10 +43,23 @@ Pretendard(SIL OFL 1.1) 기반 웹빌더용 자체 폰트. 한글·기호는 Cre
 
 ## 재빌드
 
+소스(`build/src/`, 저장소에 넣지 않음):
+
+| 경로 | 받는 곳 |
+|---|---|
+| `pretendard/` | `orioncactus/pretendard` v1.3.9 `Pretendard-1.3.9.zip` (GOV·JP·Std 아님) |
+| `roboto-hinted/Roboto-{Regular,Medium,Bold}.ttf` | `googlefonts/roboto-2` v2.136 `roboto-hinted.zip` |
+| `roboto-vf/Roboto-VF-wdth-wght.ttf` | `google/fonts` `ofl/roboto/Roboto[wdth,wght].ttf` (파일명의 `[]` 가 셸 와일드카드라 이름만 바꿈) |
+| `inter/` | `rsms/inter` v4.1 `Inter-4.1.zip` |
+
+afdko 는 Python 3.14 용 휠이 없다(260914). Python 3.13 환경에서 돌린다:
+
 ```
-pip install fonttools brotli afdko ttfautohint-py
-python3 build_font.py            # 전체 (힌팅 약 6분 + 서브셋 약 5분 / 2코어)
-python3 make_specimen.py         # 스펙 페이지
+uv venv --python 3.13 <venv>
+uv pip install --python <venv>/Scripts/python fonttools brotli afdko ttfautohint-py
+# otfautohint 가 PATH 에 있어야 한다 (<venv>/Scripts)
+python build_font.py --publish   # 전체 빌드 + fonts/ · CSS 배치
+python make_specimen.py          # dist/specimen.html · 루트 specimen.html · out/specimen-embedded.html
 ```
 `build_font.py` 상단의 FAMILY / WEIGHTS / LATIN_RANGE / METRICS 를 바꿔 다른 이름·웨이트·범위로 재생성할 수 있습니다.
 
